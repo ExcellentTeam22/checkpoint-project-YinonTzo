@@ -12,6 +12,7 @@ struct contact{
 };
 
 #define TOTAL_CONTACTS 5
+#define STRING_LEN 5
 struct contact A[TOTAL_CONTACTS];
 
 void clrscr(void);
@@ -93,15 +94,15 @@ void insert(void)
 {
     char ans='y';
     char *string = NULL;
-    size_t len=0;
+    size_t len = 0;
     size_t len_size=0;
     clrscr();
     printf("\nPhone Book12<::>Insert Contacts");
     printf("\n--------------------------------------------------------------------------------");
-    string = (char *)malloc(31);
+    string = (char *)malloc(STRING_LEN);
 
     while(ans=='y'){
-        if(last == TOTAL_CONTACTS)
+        if(last == TOTAL_CONTACTS) //Why only 5?
             last = 0;
         else{
             printf("\n\nData of Contact %2.2d{\n",last+1);
@@ -135,8 +136,8 @@ void insert(void)
 
 void delet(void)
 {
-    char dfname_string[5],dlname_string[5];
-    char *input = NULL;
+
+    char *first_name_input = NULL, *last_name_input = NULL;
     size_t len=0;
     size_t len_size=0;
     register int i,j,find=0;
@@ -145,17 +146,18 @@ void delet(void)
     printf("\nPhone Book12<::>Delete Contacts");
     printf("\n--------------------------------------------------------------------------------");
     printf ("\n::Enter data of the contact that you want delete it,please:");
+
     printf("\n\n  ::Enter first name: ");
-    len_size = getline(&input,&len,stdin);
-    strcpy(dfname_string,input);
+    len_size = getline(&first_name_input,&len,stdin);
 
     printf("\n  ::Enter last name: ");
-    len_size = getline(&input,&len,stdin);
-    strcpy(dlname_string,input);
+    len_size = getline(&last_name_input,&len,stdin);
 
     for (i = 0; i < last; i++) {
-        if (strcmp (dfname_string, A[i].fname) == 0 && strcmp (dlname_string, A[i].lname) == 0 ) {
-
+        if (strncmp (first_name_input, A[i].fname, strlen(first_name_input)) == 0){
+            printf("dfname_string\n");
+        if(strncmp (last_name_input, A[i].lname, strlen(last_name_input)) == 0)
+            printf("dlname_string\n");
             printf("\nContact was found! Details:");
             printf("\n\nCantact %2.2d{",i+1);
             printf("\n\t   F.Name:%s\n\t   L.name:%s\n\t   Tele.P:%s\n\t   Cell.P:%s\n\t   }",A[i].fname,A[i].lname,A[i].telep,A[i].cellp);
@@ -178,6 +180,8 @@ void delet(void)
         printf("\t\t\n<<Target contact was successfully deleted from list!>>");
     printf("\n\n\nPress a key to return main page & continue program|-->");
     getc(stdin);
+    free(first_name_input)
+    free(last_name_input)
 }
 
 void edit()
